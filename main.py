@@ -1,13 +1,16 @@
-import arduino_communication as ard_com
-import database_communication as db_com
-import schema
+import arduino_communication as ac
+import database_communication as dc
+
 
 def main():
-    conn = db_com.initialize_communication()
-    ser = ard_com.initialize_communication()
-    print("Hello World")
-    ard_com.close_communication(ser)
-    db_com.close_communication(conn)
+    # Initialize the serial communication
+    ser = ac.initialize_communication()
+    conn = dc.initialize_conn()
+    print("Hello World!")
 
-if __name__ == "main":
+    # Close the serial communication
+    ac.close_communication(ser)
+    dc.close_conn(conn)
+
+if __name__ == "__main__":
     main()
