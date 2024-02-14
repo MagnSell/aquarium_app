@@ -1,20 +1,20 @@
 from pydantic import BaseModel
 from datetime import datetime
-
+import uuid
 
 class Node_Measurement(BaseModel):
-    uuid: float
-    node_id: int
+    uuid: uuid.UUID
     timestamp: datetime
+    node_id: int
     temperature: float
     pH : float
     dissolved_oxygen: float
 
 
 class Fish(BaseModel):
-    uuid: float
-    fish_id: int
+    uuid: uuid.UUID
     timestamp: datetime
+    fish_id: int
     x_position: float
     y_position: float
     z_position: float
@@ -23,7 +23,7 @@ class Fish(BaseModel):
     z_velocity: float
 
 class Control_Inputs(BaseModel):
-    uuid: float
+    uuid: uuid.UUID
     timestamp: datetime
     heater: bool
     light: bool

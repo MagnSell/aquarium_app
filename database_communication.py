@@ -70,16 +70,16 @@ def create_tables(conn):
     conn.commit()
 
 
-def upsert_node_measurement(conn, node_measurement):
+def upsert_node_measurement(conn, node_measurements):
     # Create a cursor object to execute SQL queries
     cursor = conn.cursor()
 
-    # Upsert the Node_Measurement row
+    # Upsert the Node_Measurements row
     cursor.execute("""
         UPSERT INTO Node_Measurement (uuid, node_id, timestamp, temperature, pH, dissolved_oxygen)
         VALUES (%s, %s, %s, %s, %s, %s)
-    """, (node_measurement.uuid, node_measurement.node_id, node_measurement.timestamp,
-          node_measurement.temperature, node_measurement.pH, node_measurement.dissolved_oxygen))
+    """, (node_measurements.uuid, node_measurements.node_id, node_measurements.timestamp,
+          node_measurements.temperature, node_measurements.pH, node_measurements.dissolved_oxygen))
 
     # Commit the changes to the database
     conn.commit()

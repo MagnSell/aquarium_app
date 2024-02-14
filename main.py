@@ -7,14 +7,16 @@ def main():
     ser = ac.initialize_communication()
     conn = dc.initialize_conn()
 
+    # Create the tables in the database if they don't exist
+    #dc.create_tables(conn)
+
     # Main Loop
-    print("Hello World!")
     try:
         while True:
             # Receive data from the Arduino
             arduino_data = ac.receive_arduino_communication(ser)
-            print(arduino_data)
-
+            node_measurements = ac.convert_arduino_data_to_node_measurements(arduino_data)
+            print(node_measurements)
             time.sleep(5)
     except Exception as e:
         print(f"An error occurred: {e}")
