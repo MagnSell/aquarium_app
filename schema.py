@@ -4,8 +4,8 @@ import uuid
 
 class Node_Measurement(BaseModel):
     uuid: uuid.UUID
-    timestamp: datetime
     node_id: int
+    timestamp: datetime
     temperature: float
     pH : float
     dissolved_oxygen: float

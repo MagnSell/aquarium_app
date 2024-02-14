@@ -16,6 +16,8 @@ def initialize_conn():
                                 application_name="$ docs_simplecrud_psycopg2", 
                                 cursor_factory=psycopg2.extras.RealDictCursor)
     print("Connected to the database")
+
+    psycopg2.extras.register_uuid()
     return conn
 
 def close_conn(conn):
@@ -70,19 +72,23 @@ def create_tables(conn):
     conn.commit()
 
 
-def upsert_node_measurement(conn, node_measurements):
+def upsert_node_measurements(conn, node_measurements):
     # Create a cursor object to execute SQL queries
+    print("Upserting node measurements")
     cursor = conn.cursor()
 
-    # Upsert the Node_Measurements row
+    # Upsert the Node_Measurements rows
     cursor.execute("""
         UPSERT INTO Node_Measurement (uuid, node_id, timestamp, temperature, pH, dissolved_oxygen)
-        VALUES (%s, %s, %s, %s, %s, %s)
-    """, (node_measurements.uuid, node_measurements.node_id, node_measurements.timestamp,
-          node_measurements.temperature, node_measurements.pH, node_measurements.dissolved_oxygen))
+        VALUES (%s, %s, %s, %s, %s, %s), (%s, %s, %s, %s, %s, %s)
+    """, (node_measurements[0].uuid, node_measurements[0].node_id, node_measurements[0].timestamp,
+          node_measurements[0].temperature, node_measurements[0].pH, node_measurements[0].dissolved_oxygen,
+          node_measurements[1].uuid, node_measurements[1].node_id, node_measurements[1].timestamp,
+          node_measurements[1].temperature, node_measurements[1].pH, node_measurements[1].dissolved_oxygen))
 
     # Commit the changes to the database
     conn.commit()
+    print("Upserted node measurements")
 
 def upsert_fish(conn, fish):
     # Create a cursor object to execute SQL queries
@@ -112,3 +118,19 @@ def upsert_control_inputs(conn, control_inputs):
 
     # Commit the changes to the database
     conn.commit()
+
+
+def select_node_measurements(conn):
+    # Create a cursor object to execute SQL queries
+    cursor = conn.cursor()
+
+    # Select all the Node_Measurement rows
+    cursor.execute("SELECT * FROM Node_Measurement")
+
+    # Fetch all the rows from the result
+    rows = cursor.fetchall()
+
+    # Commit the changes to the database
+    conn.commit()
+
+    return rows
