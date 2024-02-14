@@ -70,7 +70,6 @@ def create_tables(conn):
     conn.commit()
 
 
-
 def upsert_node_measurement(conn, node_measurement):
     # Create a cursor object to execute SQL queries
     cursor = conn.cursor()
