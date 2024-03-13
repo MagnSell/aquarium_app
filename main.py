@@ -25,7 +25,6 @@ def main():
             
             # Print the Node_Measurement rows
             #print(dc.select_node_measurements(conn))
-                
             time.sleep(REFRESH_RATE)
     except Exception as e:
         print(f"An error occurred: {e}")
@@ -34,5 +33,11 @@ def main():
         ac.close_communication(ser)
         dc.close_conn(conn)
 
+def delete_measurements():
+    conn = dc.initialize_conn()
+    dc.delete_all_node_measurements(conn)
+    dc.close_conn(conn)
+
 if __name__ == "__main__":
+    #delete_measurements()
     main()

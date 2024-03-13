@@ -12,7 +12,7 @@ def initialize_conn():
     db_url = os.getenv("DATABASE_URL")
     # Get database connection details from environment variables
     print("Trying to connect to the database")
-    conn = psycopg2.connect(db_url, 
+    conn = psycopg2.connect(db_url,
                                 application_name="$ docs_simplecrud_psycopg2", 
                                 cursor_factory=psycopg2.extras.RealDictCursor)
     print("Connected to the database")
@@ -134,3 +134,12 @@ def select_node_measurements(conn):
     conn.commit()
 
     return rows
+
+def delete_all_node_measurements(conn):
+    # Create a cursor object to execute SQL queries
+    cursor = conn.cursor()
+    # Delete all the Node_Measurement rows
+    cursor.execute("DELETE FROM Node_Measurement")
+    # Commit the changes to the database
+    conn.commit()
+    print("Deleted all node measurements")
