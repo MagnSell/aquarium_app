@@ -78,13 +78,11 @@ def upsert_node_measurements(conn, node_measurements):
     cursor = conn.cursor()
 
     # Upsert the Node_Measurements rows
-    cursor.execute("""
-        UPSERT INTO Node_Measurement (uuid, node_id, timestamp, temperature, pH, dissolved_oxygen)
-        VALUES (%s, %s, %s, %s, %s, %s), (%s, %s, %s, %s, %s, %s)
-    """, (node_measurements[0].uuid, node_measurements[0].node_id, node_measurements[0].timestamp,
-          node_measurements[0].temperature, node_measurements[0].pH, node_measurements[0].dissolved_oxygen,
-          node_measurements[1].uuid, node_measurements[1].node_id, node_measurements[1].timestamp,
-          node_measurements[1].temperature, node_measurements[1].pH, node_measurements[1].dissolved_oxygen))
+    for index, row in node_measurements.iterrows():
+        cursor.execute("""
+            UPSERT INTO Node_Measurement (uuid, node_id, timestamp, temperature, pH, dissolved_oxygen)
+            VALUES (%s, %s, %s, %s, %s, %s)
+        """, (row['uuid'], row['node_id'], row['timestamp'], row['temperature'], row['pH'], row['dissolved_oxygen']))
 
     # Commit the changes to the database
     conn.commit()

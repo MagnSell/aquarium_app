@@ -41,20 +41,3 @@ def receive_arduino_communication(ser):
         print(f"Unexpected error on data: {data}, error: {type(e)}")
     finally:
         return json_data
-
-def convert_arduino_data_to_node_measurements(arduino_data):
-    # Create a Node_Measurement object
-    node_measurements = []
-    node_id = 0
-    for _, sensor in arduino_data.items():
-        node_measurement = Node_Measurement(
-            uuid = uuid.uuid4(),
-            timestamp = datetime.now(),
-            node_id=node_id,
-            temperature=sensor["temperature"],
-            pH=sensor["pH"],
-            dissolved_oxygen=sensor["dissolved_oxygen"]
-        )
-        node_measurements.append(node_measurement)
-        node_id += 1
-    return node_measurements
