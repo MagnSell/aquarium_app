@@ -74,7 +74,6 @@ def create_tables(conn):
 
 def upsert_node_measurements(conn, node_measurements):
     # Create a cursor object to execute SQL queries
-    print("Upserting node measurements")
     cursor = conn.cursor()
 
     # Upsert the Node_Measurements rows
@@ -86,7 +85,6 @@ def upsert_node_measurements(conn, node_measurements):
 
     # Commit the changes to the database
     conn.commit()
-    print("Upserted node measurements")
 
 def upsert_fish(conn, fish):
     # Create a cursor object to execute SQL queries

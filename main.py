@@ -7,6 +7,7 @@ from datetime import datetime
 
 def main():
     REFRESH_RATE = 5
+    NUM_NODES = 2
     # Initialize the serial communication
     ser = ac.initialize_communication()
     conn = dc.initialize_conn()
@@ -25,7 +26,7 @@ def main():
             arduino_data = ac.receive_arduino_communication(ser)
 
             if arduino_data:
-                node_measurements = convert_sensor_data_to_dataframe(arduino_data)
+                node_measurements = convert_sensor_data_to_dataframe(arduino_data, NUM_NODES)
                 dc.upsert_node_measurements(conn, node_measurements)
                 if logging:
                     log_df =pd.concat([log_df,node_measurements],ignore_index=True)
